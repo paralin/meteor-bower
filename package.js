@@ -9,7 +9,7 @@ Package._transitional_registerBuildPlugin({
   name: "bower",
   use: [
     "meteor",
-    "underscore",
+    "underscore@1.0.2"
   ],
   sources: [
     "plugin/bower.js",
