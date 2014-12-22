@@ -14,7 +14,7 @@ var bowerHandler = function (compileStep, bowerTree) {
 
   if (! _.isObject(bowerTree))
     compileStep.error({
-      message: "Bower list must be a dictionnary in " + compileStep.inputPath
+      message: "Bower list must be a dictionary in " + compileStep.inputPath
     });
 
   var bowerDirectory = path.join(path.relative(process.cwd(),
@@ -31,18 +31,18 @@ var bowerHandler = function (compileStep, bowerTree) {
   //  =>
   //  ["foo#1.2.3", "bar=owner/repo#2.1.2"]
   var installList = _.map(bowerTree, function (definition, name) {
-    if (_.isString(definition))
-      definition = { version: definition };
-
-    if (_.isEmpty(definition.version))
+    var def = name;
+    if (!_.isString(definition))
       compileStep.error({
-        message: "You must provide a version number for package " + name
+        message: "Definitions in the bower list must be strings. " + compileStep.inputPath
       });
-
-    if (_.has(definition, "source"))
-      name += "=" + definition.source;
-
-    return name + "#" + definition.version;
+    if(definition.indexOf('/') != -1)
+    {
+      def += "="+definition;
+    }else{
+      def += "#"+definition;
+    }
+    return def;
   });
 
   // `localCache` use the same format than `installList`:
