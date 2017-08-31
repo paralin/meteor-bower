@@ -198,6 +198,11 @@ var parseJSONFile = function(file) {
 var getDependencies = function( pkg, depth, list ){
   depth = depth || 0;
   list = list || [];
+    if (!pkg.pkgMeta || !pkg.pkgMeta.name) {
+        return;
+        //console.log(arguments);
+        // process.exit(1);
+    }
   var item = _.findWhere(list, {"pkgName": pkg.pkgMeta.name});
   if (item === undefined) {
     list.push({
